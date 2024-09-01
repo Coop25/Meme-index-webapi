@@ -1,0 +1,34 @@
+---
+version: "3"
+
+tasks:
+  default:
+    cmds: [task -l]
+    silent: true
+
+  run:
+    env:
+      # dev environment variables
+      PORT: "8080"
+    cmds:
+      - go run main.go
+
+  apigen:
+    desc: Generate http client and server code from openapi spec
+    cmds:
+      - go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.16.3
+      - mkdir -p ./gen/openapi/memeapi
+      - |
+        oapi-codegen -package restapi -generate "types" \
+        ./swagger/swagger.yml > ./gen/openapi/memeapi/restapi-types.go
+      - |
+        oapi-codegen -package restapi -generate "chi-server" \
+        ./swagger/swagger.yml > ./gen/openapi/memeapi/restapi-server.go
+      - |
+        oapi-codegen -package restapi -generate "spec" \
+        ./swagger/swagger.yml > ./gen/openapi/memeapi/restapi-spec.go
+  
+  fmt:
+    desc: Format code
+    cmds:
+      - go fmt ./...
