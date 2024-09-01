@@ -1,5 +1,8 @@
 ---
 version: "3"
+vars:
+  SWAGGER_VERSION: 4.1.3
+
 
 tasks:
   default:
@@ -7,9 +10,8 @@ tasks:
     silent: true
 
   run:
-    env:
-      # dev environment variables
-      PORT: "8080"
+    dotenv:
+      - ".env"
     cmds:
       - go run main.go
 
@@ -32,3 +34,13 @@ tasks:
     desc: Format code
     cmds:
       - go fmt ./...
+
+  download-swagger-ui:
+    desc: "Download and extract Swagger UI files"
+    cmds:
+      - mkdir -p swaggerui
+      - curl -L https://github.com/swagger-api/swagger-ui/archive/refs/tags/v{{.SWAGGER_VERSION}}.zip -o swaggerui.zip
+      - unzip swaggerui.zip -d swaggerui
+      - mv swaggerui/swagger-ui-{{.SWAGGER_VERSION}}/dist/* swaggerui/
+      - rm -rf swaggerui/swagger-ui-{{.SWAGGER_VERSION}} swaggerui.zip
+      - sed -i 's|https://petstore.swagger.io/v2/swagger.json|/swagger.json|g' swaggerui/index.html

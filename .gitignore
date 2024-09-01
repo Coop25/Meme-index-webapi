@@ -43,3 +43,6 @@ gen/
 
 # Taskfile binary
 .task/
+
+# Environment variables file
+.env

@@ -8,9 +8,13 @@ import (
 )
 
 func main() {
+	var err error
 	config := config.LoadConfig()
 
-	api := restapi.New(&config)
+	api, err := restapi.New(&config)
+	if err != nil {
+		log.Fatalf("Failed to initialize API: %s", err)
+	}
 
 	// Start the server
 	log.Fatal(http.ListenAndServe(":"+config.Port, api.Router))
