@@ -80,6 +80,8 @@ The API documentation is generated from the OpenAPI specification. You can view 
 
 - Go 1.16 or later
 - Taskfile
+- PostgresSQL instance
+- Minio Instance
 
 ### Running Locally
 
