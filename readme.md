@@ -55,7 +55,7 @@ The API can be configured using environment variables. The following variables a
 - `PORT`: The port on which the server will run (default: `8080`).
 
 ### PostgreSQL Configuration
--` PG_DB_HOST`: The hostname of the PostgreSQL database (e.g., `localhost`).
+- `PG_DB_HOST`: The hostname of the PostgreSQL database (e.g., `localhost`).
 - `PG_DB_PORT`: The port number of the PostgreSQL database (e.g., `5432`).
 - `PG_DB_USER`: The username for the PostgreSQL database (e.g., `postgres`).
 - `PG_DB_PASS`: The password for the PostgreSQL database (e.g., `password`).
