@@ -17,6 +17,7 @@ The Meme Index API is a RESTful API for managing and retrieving memes. It is bui
     - [Prerequisites](#prerequisites)
     - [Running Locally](#running-locally)
     - [Code Generation](#code-generation)
+    - [TODO's](#todos)
 
 ## Installation
 
@@ -104,3 +105,13 @@ To generate the API code from the OpenAPI specification, run:
 ```bash
 task apigen
 ```
+
+### TODO's
+
+- [ ] Add Logging for failed requests
+- [ ] Create Docker files for Minio and Postgres
+- [ ] Add Tests
+  - [ ] Accessor tests
+  - [ ] Manager tests
+  - [ ] Client tests
+- [ ] TBD - (I will probably come up with more things later)
