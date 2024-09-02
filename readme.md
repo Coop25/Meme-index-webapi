@@ -9,6 +9,9 @@ The Meme Index API is a RESTful API for managing and retrieving memes. It is bui
   - [Installation](#installation)
   - [Usage](#usage)
   - [Configuration](#configuration)
+    - [Server Configuration](#server-configuration)
+    - [PostgreSQL Configuration](#postgresql-configuration)
+    - [MinIO Configuration](#minio-configuration)
   - [API Documentation](#api-documentation)
   - [Development](#development)
     - [Prerequisites](#prerequisites)
@@ -48,9 +51,24 @@ The Meme Index API is a RESTful API for managing and retrieving memes. It is bui
 
 The API can be configured using environment variables. The following variables are available:
 
+### Server Configuration
 - `PORT`: The port on which the server will run (default: `8080`).
 
-You can set these variables in your environment or in a `.env` file.
+### PostgreSQL Configuration
+-` PG_DB_HOST`: The hostname of the PostgreSQL database (e.g., `localhost`).
+- `PG_DB_PORT`: The port number of the PostgreSQL database (e.g., `5432`).
+- `PG_DB_USER`: The username for the PostgreSQL database (e.g., `postgres`).
+- `PG_DB_PASS`: The password for the PostgreSQL database (e.g., `password`).
+- `PG_DB_NAME`: The name of the PostgreSQL database (e.g., `memeindex`).
+- `PG_DB_SSL_MODE`: The SSL mode for the PostgreSQL database (e.g., `disable`).
+### MinIO Configuration
+- `MINIO_ENDPOINT`: The endpoint for the MinIO server (e.g., `localhost:9000`).
+- `MINIO_ACCESS_KEY`: The access key for the MinIO server (e.g., `minio`).
+- `MINIO_ACCESS_KEY_ID`: The access key ID for the MinIO server (e.g., `minio123`).
+- `MINIO_BUCKET_NAME`: The bucket name in the MinIO server (e.g., `memeindex`).
+- `MINIO_USE_SSL`: Whether to use SSL with the MinIO server (e.g., `false`).
+
+You can set these variables in your environment or in a .env file.
 
 ## API Documentation
 

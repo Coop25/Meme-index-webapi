@@ -5,6 +5,7 @@ import (
 
 	"github.com/Coop25/the-meme-index-api/client/controllers"
 	"github.com/Coop25/the-meme-index-api/config"
+	"github.com/Coop25/the-meme-index-api/managers"
 
 	restapi "github.com/Coop25/the-meme-index-api/gen/openapi/memeapi"
 
@@ -13,14 +14,16 @@ import (
 )
 
 type RestAPI struct {
-	Config *config.Config
-	Router *chi.Mux
+	Config   *config.Config
+	Router   *chi.Mux
+	managers *managers.Managers
 }
 
-func New(config *config.Config) (*RestAPI, error) {
+func New(config *config.Config, managers *managers.Managers) (*RestAPI, error) {
 	var err error
 	api := &RestAPI{
-		Config: config,
+		Config:   config,
+		managers: managers,
 	}
 	api.Router, err = api.newRouter()
 	if err != nil {
@@ -49,7 +52,7 @@ func (api *RestAPI) newRouter() (*chi.Mux, error) {
 	// Serve OpenAPI specification
 	router.Get("/swagger.json", api.serveOpenAPISpec(swaggerJSON))
 
-	controller := controllers.New(api.Config)
+	controller := controllers.New(api.Config, *api.managers)
 
 	handler := restapi.HandlerWithOptions(controller, restapi.ChiServerOptions{})
 	router.Mount("/", handler)

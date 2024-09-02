@@ -36,6 +36,8 @@ paths:
                 $ref: '#/components/schemas/FileListResponse'
         '400':
           $ref: '#/components/responses/BadRequestError'
+        default:
+          $ref: "#/components/responses/Default"
   /files/random:
     get:
       summary: Get a random file
@@ -327,11 +329,7 @@ components:
     NoContent:
       description: No content
     Default:
-      description: Internal sever error or structural error
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/Error"
+      description: Internal sever error
   schemas:
     UploadResponse:
       type: object
@@ -373,29 +371,3 @@ components:
         description:
           type: string
           nullable: true
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
-        errors:
-          type: array
-          items:
-            $ref: "#/components/schemas/FieldError"
-      required:
-        - message
-        - code
-
-    FieldError:
-      type: object
-      properties:
-        field:
-          type: string
-        error:
-          type: string
-      required:
-        - field
-        - error
