@@ -57,6 +57,6 @@ func (a *postgresAccessor) ListAllMemes(page int, limit int) (ListMemes, error) 
 	return ListMemes{
 		Memes:      memes,
 		Page:       page,
-		TotalPages: totalPages,
+		TotalCount: totalPages,
 	}, nil
 }

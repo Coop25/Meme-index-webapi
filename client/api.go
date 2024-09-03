@@ -11,6 +11,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 )
 
 type RestAPI struct {
@@ -34,6 +35,17 @@ func New(config *config.Config, managers *managers.Managers) (*RestAPI, error) {
 
 func (api *RestAPI) newRouter() (*chi.Mux, error) {
 	router := chi.NewRouter()
+	// Basic CORS settings
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000"}, // Allow specific origin
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	})
+	router.Use(c.Handler)
+
 	router.Use(middleware.Logger)
 
 	swagger, err := restapi.GetSwagger()

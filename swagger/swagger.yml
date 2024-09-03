@@ -238,7 +238,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FileListResponse'
+                  $ref: '#/components/schemas/TagListResponse'
         '400':
           $ref: '#/components/responses/BadRequestError'
         default:
@@ -347,10 +347,25 @@ components:
             $ref: '#/components/schemas/Meme'
         page:
           type: integer
-        pageSize:
+        pageCount:
           type: integer
         total:
           type: integer
+    TagListResponse:
+      type: object
+      properties:
+        memes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meme'
+        page:
+          type: integer
+        pageCount:
+          type: integer
+        inputTags:
+          type: array
+          items:
+            type: string
     Meme:
       type: object
       properties:

@@ -1,15 +1,16 @@
 package tags
 
-import "github.com/Coop25/the-meme-index-api/managers/files"
+import "math"
 
-func (m *tagsManager) SearchFilesByTags(tags []string, page int, limit int) (files.ListMemes, error) {
+func (m *tagsManager) SearchFilesByTags(tags []string, page int, limit int) (SearchTags, error) {
 	memes, err := m.accessors.Postgres.SearchFilesByTags(tags, page, limit)
 	if err != nil {
-		return files.ListMemes{}, err
+		return SearchTags{}, err
 	}
-	return files.ListMemes{
-		Memes:      m.toMemes(memes.Memes),
-		Page:       memes.Page,
-		TotalPages: memes.TotalPages,
+	return SearchTags{
+		Memes:     m.toMemes(memes.Memes),
+		Page:      memes.Page,
+		PageCount: int(math.Ceil(float64(memes.TotalCount) / float64(limit))),
+		InputTags: tags,
 	}, nil
 }

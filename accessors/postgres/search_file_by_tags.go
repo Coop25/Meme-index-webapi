@@ -106,6 +106,6 @@ func (a *postgresAccessor) SearchFilesByTags(tags []string, page int, limit int)
 	return ListMemes{
 		Memes:      memes,
 		Page:       page,
-		TotalPages: totalCount,
+		TotalCount: totalCount,
 	}, nil
 }

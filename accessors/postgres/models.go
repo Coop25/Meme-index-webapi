@@ -28,7 +28,7 @@ type ListTags struct {
 type ListMemes struct {
 	Memes      []Meme
 	Page       int
-	TotalPages int
+	TotalCount int
 }
 
 type NewMeme struct {
