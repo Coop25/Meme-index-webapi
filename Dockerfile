@@ -9,6 +9,7 @@ WORKDIR /app
 
 # Download Go modules
 COPY go.mod go.sum ./
+COPY . .
 
 # Run Task commands
 RUN task apigen
