@@ -23,7 +23,7 @@ jobs:
       - name: Build and push service
         run: |
           docker buildx build \
-            --file service/Dockerfile \
+            --file Dockerfile \  # Adjust the path to your Dockerfile if necessary
             --tag ghcr.io/coop25/meme-index-api:latest \
             --push \
-            service
+            .
