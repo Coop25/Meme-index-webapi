@@ -17,8 +17,8 @@ func (a *postgresAccessor) SearchFilesByTags(tags []string, page int, limit int)
 	countQuery := "SELECT COUNT(DISTINCT files.id) FROM files"
 
 	if len(tags) > 0 {
-		queryString += " JOIN file_tags ON files.id = file_tags.file_id JOIN tags ON file_tags.tag_id = tags.id WHERE"
-		countQuery += " JOIN file_tags ON files.id = file_tags.file_id JOIN tags ON file_tags.tag_id = tags.id WHERE"
+		queryString += " JOIN file_tag_mappings ON files.id = file_tag_mappings.file_id JOIN tags ON file_tag_mappings.tag_id = tags.id WHERE"
+		countQuery += " JOIN file_tag_mappings ON files.id = file_tag_mappings.file_id JOIN tags ON file_tag_mappings.tag_id = tags.id WHERE"
 
 		tagConditions := make([]string, len(tags))
 		for i, _ := range tags {

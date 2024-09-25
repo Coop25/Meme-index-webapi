@@ -6,8 +6,8 @@ func (m *fileManager) ListAllMemes(page int, limit int) (ListMemes, error) {
 		return ListMemes{}, err
 	}
 	return ListMemes{
-		Memes:      m.toMemes(aListMemes.Memes),
-		Page:       aListMemes.Page,
-		TotalPages: aListMemes.TotalCount,
+		Memes:     m.toMemes(aListMemes.Memes),
+		Page:      aListMemes.Page,
+		PageCount: aListMemes.TotalCount,
 	}, nil
 }

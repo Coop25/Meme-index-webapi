@@ -17,6 +17,7 @@ type PostgresAccessor interface {
 	AutocompleteTags(query string) ([]string, error)
 	AddTagToFile(memeId string, tag string) error
 	RemoveTagFromFile(memeId string, tag string) error
+	UpdateTagsForFile(fileID string, tags []string) error
 }
 
 type ListTags struct {

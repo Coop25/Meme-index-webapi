@@ -16,7 +16,7 @@ func (a *postgresAccessor) AddTagToFile(fileID string, tag string) error {
 		return err
 	}
 
-	_, err = tx.Exec("INSERT INTO file_tags (file_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING;", fileID, tagID)
+	_, err = tx.Exec("INSERT INTO file_tag_mappings (file_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING;", fileID, tagID)
 	if err != nil {
 		tx.Rollback()
 		return err

@@ -28,7 +28,7 @@ func (c *Controller) GetFilesId(w http.ResponseWriter, r *http.Request, id strin
 
 	// Respond with the file
 	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(meme); err != nil {
+	if err := json.NewEncoder(w).Encode(toMemeResponse(meme)); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

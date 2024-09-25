@@ -16,7 +16,7 @@ func (a *postgresAccessor) RemoveTagFromFile(fileID string, tag string) error {
 	}
 
 	// Remove the tag from the file
-	_, err = tx.Exec("DELETE FROM file_tags WHERE file_id = $1 AND tag_id = $2;", fileID, tagID)
+	_, err = tx.Exec("DELETE FROM file_tag_mappings WHERE file_id = $1 AND tag_id = $2;", fileID, tagID)
 	if err != nil {
 		tx.Rollback()
 		return err

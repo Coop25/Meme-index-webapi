@@ -12,6 +12,7 @@ type FileManager interface {
 	DeleteFileById(id string) error
 	RandomMeme() (Meme, error)
 	ListAllMemes(page int, limit int) (ListMemes, error)
+	GetSignedURL(id string) (string, error)
 }
 
 type UploadFileRequest struct {
@@ -23,9 +24,9 @@ type UploadFileRequest struct {
 }
 
 type ListMemes struct {
-	Memes      []Meme
-	Page       int
-	TotalPages int
+	Memes     []Meme
+	Page      int
+	PageCount int
 }
 
 type Meme struct {

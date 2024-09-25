@@ -9,6 +9,7 @@ import (
 type MinioAccessor interface {
 	UploadMeme(in NewMeme) (MinioMeme, error)
 	DeleteMeme(id string) error
+	GenerateDownloadURL(fileName string) (string, error)
 }
 
 type NewMeme struct {

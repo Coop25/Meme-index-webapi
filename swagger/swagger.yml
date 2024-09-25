@@ -98,6 +98,35 @@ paths:
           $ref: '#/components/responses/NotFoundError'
         default:
           $ref: "#/components/responses/Default"
+  /files/{id}/signed-url:
+    get:
+      summary: Get a signed URL for a file by ID
+      description: Retrieve a signed URL for a file by its ID.
+      tags:
+        - files
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  signedUrl:
+                    type: string
+                    format: uri
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        default:
+          $ref: "#/components/responses/Default"
   /files/upload:
     post:
       summary: Upload a File
@@ -136,6 +165,8 @@ paths:
           $ref: "#/components/responses/BadRequestError"
         '404':
           $ref: "#/components/responses/NotFoundError"
+        '409':
+          $ref: "#/components/responses/ConflictError"
         default:
           $ref: "#/components/responses/Default"
   /tags/list:
@@ -163,18 +194,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                  page:
-                    type: integer
-                  pageSize:
-                    type: integer
-                  total:
-                    type: integer
+                $ref: '#/components/schemas/TagListResponse'
         '400':
           $ref: '#/components/responses/BadRequestError'
         default:
@@ -238,7 +258,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TagListResponse'
+                  $ref: '#/components/schemas/TagSearchResponse'
         '400':
           $ref: '#/components/responses/BadRequestError'
         default:
@@ -247,8 +267,8 @@ paths:
     patch:
       tags:
         - tags
-      summary: Add tags to a file by ID
-      description: Add tags to a file by its ID.
+      summary: Set tags for a file by ID
+      description: Set tags for a file by its ID.
       parameters:
         - name: id
           in: path
@@ -269,55 +289,14 @@ paths:
               required:
                 - tags
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Meme'
+        '204':
+          $ref: '#/components/responses/NoContent'
         '400':
           $ref: '#/components/responses/BadRequestError'
         '404':
           $ref: '#/components/responses/NotFoundError'
         default:
           $ref: "#/components/responses/Default"
-    delete:
-      tags:
-        - tags
-      summary: Remove tags from a file by ID
-      description: Remove tags from a file by its ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                tags:
-                  type: array
-                  items:
-                    type: string
-              required:
-                - tags
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Meme'
-        '400':
-          $ref: '#/components/responses/BadRequestError'
-        '404':
-          $ref: '#/components/responses/NotFoundError'
-        default:
-          $ref: '#/components/responses/Default'
 components:
   responses:
     OK:
@@ -328,6 +307,8 @@ components:
       description: Not found
     NoContent:
       description: No content
+    ConflictError:
+      description: Conflict
     Default:
       description: Internal sever error
   schemas:
@@ -349,9 +330,7 @@ components:
           type: integer
         pageCount:
           type: integer
-        total:
-          type: integer
-    TagListResponse:
+    TagSearchResponse:
       type: object
       properties:
         memes:
@@ -366,6 +345,17 @@ components:
           type: array
           items:
             type: string
+    TagListResponse:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageCount:
+          type: integer
+        tags:
+          type: array
+          items:
+            type: string
     Meme:
       type: object
       properties:
@@ -373,12 +363,14 @@ components:
           type: string
         name:
           type: string
-        contenttype:
+        contentType:
           type: string
         tags:
           type: array
           items:
             type: string
+        fileUrl:
+          type: string
         url:
           type: string
           format: uri

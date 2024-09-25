@@ -35,11 +35,19 @@ func (c *Controller) GetTagsSearch(w http.ResponseWriter, r *http.Request, param
 		return
 	}
 
+	memes := toMemesResponse(tags.Memes)
+	searchTagsResponse := restapi.TagSearchResponse{
+		Memes:     &memes,
+		Page:      &tags.Page,
+		PageCount: &tags.PageCount,
+		InputTags: &inTags,
+	}
+
 	// Set the Content-Type header to application/json
 	w.Header().Set("Content-Type", "application/json")
 
 	// Encode the tags array to JSON and write it to the response
-	if err := json.NewEncoder(w).Encode(tags); err != nil {
+	if err := json.NewEncoder(w).Encode(searchTagsResponse); err != nil {
 		http.Error(w, "Unable to encode response", http.StatusInternalServerError)
 	}
 }

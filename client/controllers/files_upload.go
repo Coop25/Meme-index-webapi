@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strings"
 
@@ -14,6 +15,7 @@ func (c *Controller) PostFilesUpload(w http.ResponseWriter, r *http.Request) {
 	// Parse the multipart form data
 	err := r.ParseMultipartForm(0)
 	if err != nil {
+		log.Printf("Error parsing form: %v", err)
 		http.Error(w, "Unable to parse form", http.StatusBadRequest)
 		return
 	}
@@ -21,6 +23,7 @@ func (c *Controller) PostFilesUpload(w http.ResponseWriter, r *http.Request) {
 	// Get the file from the form data
 	file, handler, err := r.FormFile("file")
 	if err != nil {
+		log.Printf("Error getting file from form: %v", err)
 		http.Error(w, "Unable to get file from form", http.StatusBadRequest)
 		return
 	}
@@ -43,6 +46,12 @@ func (c *Controller) PostFilesUpload(w http.ResponseWriter, r *http.Request) {
 
 	id, err := c.managers.Files.UploadFile(newMeme)
 	if err != nil {
+		if err.Error() == "duplicate file detected" {
+			// Handle the duplicate file error specifically
+			http.Error(w, "Error: Duplicate file detected.", http.StatusConflict)
+			return
+        } 
+		log.Printf("Error uploading file: %v", err)
 		http.Error(w, "Unable to upload file", http.StatusInternalServerError)
 		return
 	}
@@ -54,6 +63,7 @@ func (c *Controller) PostFilesUpload(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(response); err != nil {
+		log.Printf("Error encoding response: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
