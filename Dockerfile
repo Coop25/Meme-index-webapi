@@ -4,37 +4,31 @@ FROM golang:1.20-alpine AS builder
 # Install Task
 RUN apk add --no-cache curl \
     && curl -sL https://taskfile.dev/install.sh | sh
-
-# Set the Current Working Directory inside the container
+# Set destination for COPY
 WORKDIR /app
 
-# Copy go mod and sum files
+# Download Go modules
 COPY go.mod go.sum ./
-
-# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
-RUN go mod download
-
-# Copy the source code into the container
-COPY . .
 
 # Run Task commands
 RUN task apigen
 RUN task download-swagger-ui
 
-# Build the Go app
-RUN go build -o main .
+RUN go mod download
 
-# Use a minimal base image to reduce the size of the final image
-FROM alpine:latest
+# Copy the source code. Note the slash at the end, as explained in
+# https://docs.docker.com/reference/dockerfile/#copy
+COPY *.go ./
 
-# Set the Current Working Directory inside the container
-WORKDIR /root/
+# Build
+RUN CGO_ENABLED=0 GOOS=linux go build -o /meme-index-api
 
-# Copy the Pre-built binary file from the previous stage
-COPY --from=builder /app/main .
-
-# Expose port 8080 to the outside world
+# Optional:
+# To bind to a TCP port, runtime parameters must be supplied to the docker command.
+# But we can document in the Dockerfile what ports
+# the application is going to listen on by default.
+# https://docs.docker.com/reference/dockerfile/#expose
 EXPOSE 8080
 
-# Command to run the executable
-CMD ["./main"]
+# Run
+CMD ["/meme-index-api"]
