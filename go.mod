@@ -1,6 +1,6 @@
 module github.com/Coop25/the-meme-index-api
 
-go 1.21.5
+go 1.21
 
 require (
 	github.com/getkin/kin-openapi v0.127.0
