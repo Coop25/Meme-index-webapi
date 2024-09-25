@@ -15,7 +15,13 @@ jobs:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
-      - name: 'Build Inventory Image'
+      - name: Build service
+        run:
+          docker build \
+            --file service/Dockerfile \
+            --tag ghcr.io/coop25/meme-index-api:latest \
+            service
+
+      - name: push service
         run: |
-          docker build . --tag ghcr.io/coop25/meme-index-api:latest
           docker push ghcr.io/coop25/meme-index-api:latest
