@@ -19,6 +19,7 @@ type Config struct {
 	MinioSecretKeyID string `envconfig:"MINIO_ACCESS_KEY_ID" default:"minio123"`
 	MinioBucketName  string `envconfig:"MINIO_BUCKET_NAME" default:"memeindex"`
 	MinioUseSSL      bool   `envconfig:"MINIO_USE_SSL" default:"false"`
+	Origin           string `envconfig:"ORIGIN" default:"http://localhost:3000"`
 }
 
 func LoadConfig() Config {
