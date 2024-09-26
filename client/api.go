@@ -38,7 +38,7 @@ func (api *RestAPI) newRouter() (*chi.Mux, error) {
 	// Basic CORS settings
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{api.Config.Origin}, // Allow specific origin
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
 		AllowCredentials: true,
